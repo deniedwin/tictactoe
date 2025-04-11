@@ -1,4 +1,6 @@
 class Game
+  WINNER_LINES = [[1,2,3],[4,5,6],[7,8,9],[1,4,7],[2,5,8],[3,6,9],[1,5,9],[3,5,7]]
+  #find way to add this to check for winners
   def initialize(player1, player2)
     @player1 = player1
     @player2 = player2
@@ -9,6 +11,7 @@ class Game
     game_board = Board.new
     (1..9).each do |i|
       game_board.draw_board
+      Board.has_won
 
       if i%2 == 0
         @player1.make_move(game_board, 'x')
@@ -16,6 +19,10 @@ class Game
         @player2.make_move(game_board, 'o')
       end
     end
+  end
+
+  def self.winner_lines
+    WINNER_LINES
   end
 end
 
@@ -51,6 +58,13 @@ class Board
     end
   end
 
+  def self.has_won
+    Game.winner_lines.each_with_index do |i_item,i|
+      i_item.each_with_index do |j_item,j|
+        puts "winner_lines[#{i}][#{j}] = #{j_item}" #FIX THIS!!!
+      end
+    end
+  end
 end
 
 class Player
