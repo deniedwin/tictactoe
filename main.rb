@@ -11,12 +11,17 @@ class Game
     game_board = Board.new
     (1..9).each do |i|
       game_board.draw_board
-      Board.has_won
-
       if i%2 == 0
         @player1.make_move(game_board, 'x')
       else
         @player2.make_move(game_board, 'o')
+      end
+      
+      if Board.has_won?
+        puts 'stop game, winner found'
+      else
+        puts 'no winner yet, continue'
+        break
       end
     end
   end
@@ -58,10 +63,11 @@ class Board
     end
   end
 
-  def self.has_won
+  def self.has_won?
     Game.winner_lines.each_with_index do |i_item,i|
-      i_item.each_with_index do |j_item,j|
-        puts "winner_lines[#{i}][#{j}] = #{j_item}" #FIX THIS!!!
+      if @@board_state[i_item[0]-1] == @@board_state[i_item[1]-1] && @@board_state[i_item[0]-1] == @@board_state[i_item[2]-1]
+        # puts "#{@@board_state[0]-1}-player has won!"
+        true
       end
     end
   end
