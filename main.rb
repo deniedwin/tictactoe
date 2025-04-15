@@ -18,9 +18,8 @@ class Game
       end
       
       if Board.has_won?
+        game_board.draw_board
         puts 'stop game, winner found'
-      else
-        puts 'no winner yet, continue'
         break
       end
     end
@@ -64,12 +63,12 @@ class Board
   end
 
   def self.has_won?
-    Game.winner_lines.each_with_index do |i_item,i|
+    Game.winner_lines.each do |i_item|
       if @@board_state[i_item[0]-1] == @@board_state[i_item[1]-1] && @@board_state[i_item[0]-1] == @@board_state[i_item[2]-1]
-        # puts "#{@@board_state[0]-1}-player has won!"
-        true
+        return true
       end
     end
+    return false
   end
 end
 
