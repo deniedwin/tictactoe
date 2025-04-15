@@ -14,14 +14,13 @@ class Game
       if i.even?
         @player1.make_move(game_board, player1.marker)
       else
-        current_marker = @mark2
         @player2.make_move(game_board, player2.marker)
       end
       
       if Board.has_won?
         game_board.draw_board
         puts 'stop game!'
-        puts "the winner is: #{} player-#{current_marker}"
+        puts "the winner is: #{} player-#{player1.marker}"
         break
       elsif Board.has_draw?
         game_board.draw_board
@@ -102,5 +101,5 @@ class Player
   attr_reader :id, :marker
 end
 
-tictactoe = Game.new(Player.new(1,'x'), Player.new(2,'o'))
+tictactoe = Game.new(Player.new(111,'x'), Player.new(222,'o'))
 tictactoe.start_game
