@@ -4,22 +4,28 @@ class Game
   def initialize(player1, player2)
     @player1 = player1
     @player2 = player2
-    @won = false
   end
 
   def start_game
     game_board = Board.new
     (1..9).each do |i|
       game_board.draw_board
-      if i%2 == 0
-        @player1.make_move(game_board, 'x')
+
+      if i.even?
+        @player1.make_move(game_board, player1.marker)
       else
-        @player2.make_move(game_board, 'o')
+        current_marker = @mark2
+        @player2.make_move(game_board, player2.marker)
       end
       
       if Board.has_won?
         game_board.draw_board
-        puts 'stop game, winner found'
+        puts 'stop game!'
+        puts "the winner is: #{} player-#{current_marker}"
+        break
+      elsif Board.has_draw?
+        game_board.draw_board
+        puts 'its a draw!'
         break
       end
     end
@@ -70,6 +76,10 @@ class Board
     end
     return false
   end
+
+  def self.has_draw?
+    @@board_state.all? {|cell| cell.is_a?(String)}
+  end
 end
 
 class Player
@@ -84,7 +94,13 @@ class Player
       end
     end
   end
+
+  def initialize(id, marker)
+    @id = id
+    @marker = marker
+  end
+  attr_reader :id, :marker
 end
 
-tictactoe = Game.new(Player.new, Player.new)
+tictactoe = Game.new(Player.new(1,'x'), Player.new(2,'o'))
 tictactoe.start_game
